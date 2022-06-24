@@ -2,7 +2,7 @@
 
 <div align="right">
 Created    : "2009-01-21 15:08:02 ban"<br>
-Last Update: "2022-06-24 18:00:32 ban"
+Last Update: "2022-06-24 18:20:31 ban"
 </div>
 
 <br>
@@ -10,7 +10,7 @@ Last Update: "2022-06-24 18:00:32 ban"
 <img src="https://img.shields.io/badge/LANGUAGE-MATLAB-brightgreen" />
 <img src="https://img.shields.io/badge/EDITED%20BY-EmEditor-blue" />
 <img src="https://img.shields.io/badge/LICENSE-BSD-red" /><br>
-<img src="https://img.shields.io/badge/KEYWORDS-EmEditor,MATLAB,%20Macro,%20Syntax,%20Highlight,%20Linter,%20-blue?style=social&logo=webauthn" /><br>
+<img src="https://img.shields.io/badge/KEYWORDS-EmEditor,MATLAB,%20Macro,%20Syntax,%20Highlighting,%20Linter,%20-blue?style=social&logo=webauthn" /><br>
 <img src="https://img.shields.io/badge/CONTACT-lightgrey" /> <img src="doc/images/ban_hiroshi_address.png" />
 </div>
 <br>
@@ -18,7 +18,9 @@ Last Update: "2022-06-24 18:00:32 ban"
 # <a name = "Menu"> **MATLABtools4EmEditor -- MATLAB support for EmEditor** </a>
 
 ![matlabtools4emeditor](doc/images/matlabtools4emeditor.png)  
-MATLABtools4EmEditor provides utilities for MATLAB syntax highlighting, keyword (functions and operators) auto-completion, code snippets, and macros for automations.  
+*MATLABtools4EmEditor provides utilities for MATLAB syntax highlighting, keyword (functions and operators) auto-completion, code snippets, and macros for automations.*  
+
+<br></br>
 
 This package contains a set of **EmEditor** syntax-highlighting files, code snippets, and simple JavaScript macros for editing **MATLAB** codes. It enables EmEditor to highlight the MATLAB keywords (functions and operators), detect the grammatical errors/warnings with MATLAB mlint.exe, and support code-editing via semi-auto-completion macros and snippets. I am happy if the tools can help your coding life.  
 
@@ -29,13 +31,18 @@ This package contains a set of **EmEditor** syntax-highlighting files, code snip
 ## **Contents**
 
 ![mlint](doc/images/mlint.gif)  
-mMLINT in the snippet/macro enables MATLAB syntax check with mlint.exe in EmEditor.  
+
+*mMLINT in the snippet/macro enables MATLAB syntax check with mlint.exe in EmEditor.*  
 
 ![time_stamp](doc/images/time_stamp.gif)  
-mINS_TSTAMP in the snippet/macro automatically adds time stamp in saving the *.m files.  
+
+*mINS_TSTAMP in the snippet/macro automatically adds time stamp in saving the *.m files.*  
+
+<br></br>
 
 <pre>
-matlab_with_toolboxes.esy : EmEditor Syntax File for MATLAB and MATLAB-toolboxes, a full-set version
+matlab_with_toolboxes.esy : EmEditor Syntax File for MATLAB and MATLAB-toolboxes,
+    a full-set version.
     This is the EmEditor syntax file for MATLAB and MATLAB toolboxes, which
     supports to highlight keywords (functions and operators). It can be also
     helpful in semi-automatically fill the keywords with the auto-completion
@@ -45,7 +52,8 @@ matlab_with_toolboxes.esy : EmEditor Syntax File for MATLAB and MATLAB-toolboxes
     Or you can use the light-version of the syntax file below.
     This syntax file has been organized mainly based on MATLAB R2022a.
 
-matlab_with_toolboxes_light.esy : EmEditor Syntax File for MATLAB and MATLAB-toolboxes, a light-weight version
+matlab_with_toolboxes_light.esy : EmEditor Syntax File for MATLAB and MATLAB-toolboxes,
+    a light-weight version.
     This is the EmEditor syntax file for MATLAB and MATLAB toolboxes, with
     lesser highlighting keywords, compared to matlab_with_toolboxes.esy.
     If the full-version of the syntax file above is too much, please use
@@ -66,7 +74,7 @@ EmEditor_MATLAB_snippet.eesnip : EmEditor Snippet File for MATLAB.
     5. mINDENT : a Javascript macro snippet,
               indenting the region, made for keyboard manipulations.
     6. mINS_TSTAMP : a Javascript macro snippet,
-              adding time stamp when the phrase, "Last Update : "2022-06-24 18:00:32 ban"
+              adding time stamp when the phrase, "Last Update : "2022-06-24 18:20:31 ban"
               is detected within the first 200 lines of the source code.
     7. mMLINT : a Javascript macro snippet,
               checking grammatical errors/warnings of the source code
