@@ -1,0 +1,919 @@
+<?xml version="1.0"?>
+<!--EmEditor Snippets file-->
+
+
+<Snippets>
+<SnippetTree>
+	<Folder Name="MATLAB" Flags="3" ConfigEdit="" ConfigMacro="" ConfigsAssociate="\MATLAB\">
+		<Item Name="mCLEAN" Flags="10" ConfigEdit="" ConfigMacro="" ConfigsAssociate="\MATLAB\" Text=
+"// mCLEAN for MATLAB script (*.m)
+//
+// [about]
+// a simple macro to clean your script up by deleting all excessive white-spaces.
+//
+//
+// Created    : &quot;2013-11-20 09:44:51 ban&quot;
+// Last Update: &quot;2013-11-20 09:44:51 ban&quot;
+
+Window.Redraw=false;
+
+// delete all excessive white-spaces
+document.selection.Replace(&quot;^[[:blank:]]+$&quot;,&quot;&quot;,eeFindNext|eeReplaceAll|eeFindReplaceRegExp);
+document.selection.Replace(&quot;[[:blank:]]+$&quot;,&quot;&quot;,eeFindNext|eeReplaceAll|eeFindReplaceRegExp);
+document.HighlightFind=false;
+
+Window.Redraw=true;
+" Trigger="" Tip="" ShortcutKey="67" ShortcutVirt="19"/>
+
+
+		<Item Name="mCOMMENT_LINE" Flags="10" ConfigEdit="" ConfigMacro="" ConfigsAssociate="\MATLAB\" Text=
+"// mCOMMENT_LINES for MATLAB script (*.m)
+//
+// [about]
+// a simple macro to commet/uncomment the selected region or the current line with % prefix.
+//
+// Created    : &quot;2013-11-20 09:44:51 ban&quot;
+// Last Update: &quot;2013-11-20 09:44:51 ban&quot;
+
+Window.Redraw=false;
+
+// get the current cursor position
+var XX=document.selection.GetActivePointX(eePosView);
+var YY=document.selection.GetActivePointY(eePosView);
+
+if (document.selection.IsEmpty){
+  // move to the head of line
+  document.selection.EndOfLine(false,eeLineView);
+  document.selection.StartOfLine(false,eeLineView | eeLineHomeText);
+
+  // add/delete &quot;%&quot; and commet/uncomment the line
+  document.selection.CharRight(true,1);
+  set_comment(document.selection.Text,XX,YY);
+}else{
+  // get the current selected region
+  var YYs=document.selection.GetTopPointY(eePosView);
+  var YYe=document.selection.GetBottomPointY(eePosView);
+
+  // processing
+  for (ii=0;ii&lt;=YYe-YYs;ii++){
+    // move to the target line
+    document.selection.SetActivePoint(eePosView,1,YYs+ii,false);
+    document.selection.EndOfLine(false,eeLineView);
+    document.selection.StartOfLine(false,eeLineView | eeLineHomeText);
+    
+    // add/delete &quot;%&quot; and commet/uncomment the line
+    document.selection.CharRight(true,1);
+    move_flg=set_comment(document.selection.Text,XX,YY);
+  }
+  document.selection.SetActivePoint(eePosView,XX,YY,false);
+  if (move_flg==0) document.selection.CharLeft(false,1);
+  if (move_flg==1) document.selection.CharRight(false,1);
+}
+
+Window.Redraw = true;
+
+// subfunction to comment/uncomment the line
+function set_comment(cchar,XX,YY){
+  if (cchar==&quot;%&quot;){
+    document.selection.Delete(1);
+    document.selection.SetActivePoint(eePosView,XX,YY,false);
+    document.selection.CharLeft(false,1);
+    return 0;
+  }else{
+    document.selection.CharLeft(1);
+    document.selection.Text=&quot;%&quot;;
+    document.selection.SetActivePoint(eePosView,XX,YY,false);
+    document.selection.CharRight(false,1);
+    return 1;
+  }
+}
+" Trigger="" Tip="" ShortcutKey="84" ShortcutVirt="11"/>
+
+
+		<Item Name="mCOMMENT_REGION" Flags="8" ConfigEdit="" ConfigMacro="" ConfigsAssociate="\" Text=
+"// mCOMMENT_REGION for MATLAB script (*.m)
+//
+// [about]
+// a simple macro to commet/uncomment the selected region with %{ and %} prefix.
+//
+// Created    : &quot;2013-11-20 09:44:51 ban&quot;
+// Last Update: &quot;2013-11-20 09:44:51 ban&quot;
+
+Window.Redraw=false;
+
+// get the current cursor position
+var XX=document.selection.GetActivePointX(eePosView);
+var YY=document.selection.GetActivePointY(eePosView);
+
+if (document.selection.IsEmpty){
+  // move to the head of line
+  document.selection.SetActivePoint(eePosView,1,YY,false);
+  // insert %{
+  document.selection.NewLine(1);
+  document.selection.LineUp(false,1);
+  document.selection.Text=&quot;%{&quot;;
+  // insert %} and go to the new line
+  document.selection.SetActivePoint(eePosView,1,YY+2,false);
+  document.selection.Text=&quot;%}&quot;;
+  document.selection.NewLine(1);
+}else{
+  // get the current selected region
+  var YYs=document.selection.GetTopPointY(eePosView);
+  var YYe=document.selection.GetBottomPointY(eePosView);
+
+  // move to the head of region
+  document.selection.SetActivePoint(eePosView,1,YYs,false);
+  // insert %{
+  document.selection.NewLine(1);
+  document.selection.LineUp(false,1);
+  document.selection.Text=&quot;%{&quot;;
+  // insert %} and go to the new line
+  document.selection.SetActivePoint(eePosView,1,YYe+2,false);
+  document.selection.Text=&quot;%}&quot;;
+  document.selection.NewLine(1);
+}
+
+Window.Redraw = true;
+" Trigger="" Tip="" ShortcutKey="0" ShortcutVirt="0"/>
+
+
+		<Item Name="mENDLINE" Flags="10" ConfigEdit="" ConfigMacro="" ConfigsAssociate="\MATLAB\" Text=
+"// mENDLINE for MATLAB script (*.m)
+//
+// [about]
+// a simple macro to add/remove &quot;;&quot; at the end of line(s)
+//
+//
+// Created    : &quot;2013-11-20 09:44:51 ban&quot;
+// Last Update: &quot;2013-11-20 09:44:51 ban&quot;
+
+Window.Redraw = false;
+
+XX=document.selection.GetActivePointX(eePosLogicalA);
+YY=document.selection.GetActivePointY(eePosLogical);
+
+if (document.selection.IsEmpty){
+  set_endline();
+}else{
+  // get the current selected region
+  var YYs=document.selection.GetTopPointY(eePosView);
+  var YYe=document.selection.GetBottomPointY(eePosView);
+
+  // processing
+  for (ii=0;ii&lt;=YYe-YYs;ii++){
+    // move to the target line
+    document.selection.SetActivePoint(eePosView,1,YYs+ii,false);
+    set_endline();
+  }
+}
+
+document.selection.SetActivePoint(eePosLogicalA,XX,YY,false);
+
+Window.Redraw = true;
+
+// subfunction to add/remove &quot;;&quot;
+function set_endline(){
+  document.selection.EndOfLine(false,eeLineView | eeLineHomeText);
+  document.selection.CharLeft(false,1);
+  document.selection.EndOfLine(true,eeLineView);
+
+  // add/remove &quot;;&quot;
+  if (document.selection.Text!=&quot;;&quot;){
+    document.selection.EndOfLine(false,eeLineView | eeLineHomeText);
+    document.selection.Text=&quot;;&quot;;
+  }else{
+    document.selection.Delete(1);
+  }
+}
+" Trigger="" Tip="" ShortcutKey="187" ShortcutVirt="11"/>
+
+
+		<Item Name="mINDENT" Flags="10" ConfigEdit="" ConfigMacro="" ConfigsAssociate="\MATLAB\" Text=
+"// mINDENT for MATLAB script (*.m)
+//
+// [about]
+// a simple macro to indent the lines.
+//
+//
+// Created    : &quot;2013-11-20 09:44:51 ban&quot;
+// Last Update: &quot;2013-11-20 09:44:51 ban&quot;
+
+Window.Redraw=false;
+
+XX=document.selection.GetActivePointX(eePosLogicalA);
+YY=document.selection.GetActivePointY(eePosLogical);
+
+if (document.selection.IsEmpty){
+  if (YY&gt;1){
+    moves=set_nIndents(YY);
+    set_indent(moves);
+  }else{
+    set_indent(0);
+  }
+}else{
+  // get the current selected region, then processing
+  var YYs=document.selection.GetTopPointY(eePosView);
+  var YYe=document.selection.GetBottomPointY(eePosView);
+  for (ii=0;ii&lt;=YYe-YYs;ii++){
+    if (YYs+ii&gt;1){
+      moves=set_nIndents(YYs+ii);
+      set_indent(moves);
+    }else{
+      set_indent(0);
+    }
+  }
+}
+
+document.selection.SetActivePoint(eePosLogicalA,XX,YY,false);
+
+Window.Redraw=true;
+
+
+// subfunction to move to the head of the Line
+function goto_head(YY){
+  document.selection.SetActivePoint(eePosLogicalA,1,YY,false);
+  document.selection.EndOfLine(false,eeLineView);
+  document.selection.StartOfLine(false,eeLineView | eeLineHomeText);
+}
+
+// subfunction to indent/unindent region
+function set_indent(diffs){
+  XXc=document.selection.GetActivePointX(eePosLogicalA)-1;
+  document.selection.EndOfLine(true,eeLineView);
+  nIndent=Math.floor((diffs-XXc)/document.Config.Indent.TabColumns);
+  if (nIndent!=0) document.selection.Indent(nIndent);
+  if (Math.abs(nIndent*document.Config.Indent.TabColumns)&lt;XXc){
+    residual=Math.ceil((diffs-XXc)/document.Config.Indent.TabColumns-nIndent);
+    if (residual&gt;0){
+      document.selection.StartOfLine(false,eeLineView | eeLineHomeText);
+      for (ii=0;ii&lt;residual;ii++) document.selection.Text=&quot; &quot;;
+    }
+  }
+}
+
+// subfunction to decide the number of indents to insert/delete
+function set_nIndents(target_line){
+  goto_head(target_line-1);
+
+  // check whether the lines are within loop etc.
+  preXX=document.selection.GetActivePointX(eePosLogicalA)-1;
+  document.selection.SelectWord();
+  word=document.selection.Text;
+  if (word==&quot;if&quot; | word==&quot;else&quot; | word==&quot;elseif&quot; | word==&quot;for&quot; | word==&quot;while&quot; | word==&quot;switch&quot; | word==&quot;case&quot; | word==&quot;goto&quot;){
+    moves=preXX+document.Config.Indent.TabColumns;
+  }else{
+    moves=preXX;
+  }
+
+  // check whether the previous line is the 1-line loop statement
+  document.selection.EndOfLine(false,eeLineView);
+  document.selection.CharLeft(1);
+  document.selection.SelectWord();
+  word=document.selection.Text;
+  if (word==&quot;end&quot; | word==&quot;end;&quot;) moves=preXX;
+
+  goto_head(target_line);
+
+  // check whether the current line is the &quot;end&quot; statement
+  document.selection.EndOfLine(false,eeLineView);
+  document.selection.CharLeft(1);
+  document.selection.SelectWord();
+  word=document.selection.Text;
+  if (word==&quot;end&quot; | word==&quot;end;&quot;) moves=preXX-document.Config.Indent.TabColumns;
+
+  goto_head(target_line);
+
+  return moves;
+}
+" Trigger="" Tip="" ShortcutKey="9" ShortcutVirt="3"/>
+
+
+		<Item Name="mINS_TSTAMP" Flags="10" ConfigEdit="" ConfigMacro="" ConfigsAssociate="\MATLAB\" Text=
+"// mINS_TSTAMP
+//
+// [about]
+// A simple macro for inserting a time stamp of the Last Updated period,
+// like, &quot;2013-11-25 10:27:38 ban.&quot;
+// when &quot;Last[1_line_space](Update|Modified|Changed):[1_line_space]&quot;
+// is found within the 150 lines from the head of te file.
+//
+//
+// Created    : &quot;2013-11-19 13:35:44, ban&quot;
+// Last Update: &quot;2013-11-19 13:52:40, ban&quot;
+
+Window.Redraw=false;
+
+// get the current cursor position
+var XX=document.selection.GetActivePointX(eePosView);
+var YY=document.selection.GetActivePointY(eePosView);
+
+// move cursor to the start point of the file
+document.selection.StartOfDocument();
+
+// GMT or local time (true/false)
+var isGmt=false;
+
+// the number of digits for year display (2 or 4)
+var yearDigit=4;
+
+// month
+//var monthStr=new Array(&quot;January&quot;, &quot;February&quot;, &quot;March&quot;, &quot;April&quot;, &quot;May&quot;, &quot;June&quot;, &quot;July&quot;, &quot;August&quot;, &quot;September&quot;, &quot;October&quot;, &quot;November&quot;, &quot;December&quot;);
+var monthStr=new Array(&quot;01&quot;,&quot;02&quot;,&quot;03&quot;,&quot;04&quot;,&quot;05&quot;,&quot;06&quot;,&quot;07&quot;,&quot;08&quot;,&quot;09&quot;,&quot;10&quot;,&quot;11&quot;,&quot;12&quot;);
+
+// day
+var dayStr=new Array(&quot;Sun&quot;,&quot;Mon&quot;,&quot;Tue&quot;,&quot;Wed&quot;,&quot;Thu&quot;,&quot;Fri&quot;,&quot;Sat&quot;);
+
+// timezone
+var timezoneStr;
+
+// create timezone characters
+if (isGmt){
+  timezoneStr=&quot;GMT&quot;;
+}else{
+  // offset of the timezone (minute)
+  var timezoneOffset=(new Date()).getTimezoneOffset();
+
+  if (timezoneOffset==0) timezoneStr=&quot;GMT&quot;;
+  else if (timezoneOffset&gt;0) timezoneStr=&quot;-&quot;;	// +/- inverse!
+  else timezoneStr=&quot;+&quot;;
+
+  if (timezoneOffset!=0){
+    if (timezoneOffset&lt;0) timezoneOffset*=-1;
+
+    var timezoneOffsetHH=Math.floor(timezoneOffset/60);
+    var timezoneOffsetMM=timezoneOffset%60;
+
+    timezoneStr+=zero_fill(timezoneOffsetHH,2)+zero_fill(timezoneOffsetMM,2);
+  }
+}
+
+var d=new Date();
+var year=zero_fill((isGmt ? d.getUTCFullYear() : d.getFullYear()), 4).slice(-yearDigit);
+var month=monthStr[(isGmt ? d.getUTCMonth() : d.getMonth())];
+var date=zero_fill((isGmt ? d.getUTCDate() : d.getDate()), 2);
+var day=dayStr[(isGmt ? d.getUTCDay() : d.getDay())];
+var hours=zero_fill((isGmt ? d.getUTCHours() : d.getHours()), 2);
+var minutes=zero_fill((isGmt ? d.getUTCMinutes() : d.getMinutes()), 2);
+var seconds=zero_fill((isGmt ? d.getUTCSeconds() : d.getSeconds()), 2);
+
+// get user name
+var user=(new ActiveXObject(&quot;WScript.Network&quot;)).UserName;
+
+//------------------------------------------------------------------------------
+// insert &quot;Last Update/Modified/Changed : &quot;YYYY-MM-DD (user_name) (user_email)&quot;
+//------------------------------------------------------------------------------
+
+// find 'Last Update: ', 'Last Modified: ', or 'Last Changed: ' phrase within the first 150 lines
+if (document.selection.Find( &quot;Last (Update|Modified|Changed): \&quot;&quot;,eeFindNext|eeFindReplaceRegExp|eeFindReplaceQuiet)){
+  if (document.selection.GetActivePointY(eePosLogical)&lt;=200){
+    document.selection.CharRight(false,1);
+    document.selection.EndOfLine(true,eeLineView);
+    //document.selection.Text=day + &quot;, &quot; + month + &quot; &quot; + date + &quot;, &quot; + year + &quot; &quot; + hours + &quot;:&quot; + minutes + &quot;:&quot; + seconds + &quot; GMT&quot; + timezoneStr + &quot; (user_name)&quot;;
+    document.selection.Text=year + &quot;-&quot; + month + &quot;-&quot; + date + &quot; &quot; + hours + &quot;:&quot; + minutes + &quot;:&quot; + seconds + &quot; &quot; + user + &quot;\&quot;&quot;;
+  }else{
+    // no actions
+  }
+  document.HighlightFind=false;
+  document.selection.SetActivePoint(eePosView,XX,YY,false);
+  //editor.ExecuteCommandByID(4116); // save &amp; close the buffer
+}else{
+  document.selection.SetActivePoint(eePosView,XX,YY,false);
+}
+
+Window.Redraw=true;
+
+// subfunction to fill characters by zero
+function zero_fill(num, digit) {
+  var str=(new Number(num)).toString();
+  while (str.length &lt; digit) { str=&quot;0&quot; + str; }
+  return str;
+}
+" Trigger="" Tip="" ShortcutKey="73" ShortcutVirt="11"/>
+
+
+		<Item Name="mMLINT" Flags="10" ConfigEdit="" ConfigMacro="" ConfigsAssociate="\MATLAB\" Text=
+"// mMLINT for MATLAB script (*.m)
+//
+// [about]
+// a simple macro to run mlint (MATLAB debugger) from EmEditor and
+// display all the warnings/errors on EmEditor's output window.
+// "iconv" executable is required in the env path for full functionality,
+// while the script somehow works even without it.
+//
+//
+// Created    : &quot;2013-11-20 09:44:51 ban&quot;
+// Last Update: &quot;2022-06-24 02:22:45 ban&quot;
+
+// tell the location of mlint with a full path format.
+// please change the path to the executable depending on your setups
+
+//var mlint=&quot;\&quot;C:\\Program Files\\MATLAB\\R2009a\\bin\\win32\\mlint.exe\&quot;&quot;;
+var mlint=&quot;\&quot;C:\\Program Files\\MATLAB\\R2020b\\bin\\win64\\mlint.exe\&quot;&quot;;
+
+// subfunction
+function string2utf8( bytes, enc ){
+  var fid=new ActiveXObject(&quot;ADODB.Stream&quot;);
+  fid.Type=2;
+  fid.Charset=&quot;shift_jis&quot;;
+  fid.LineSeparator=-1;
+  fid.Open();
+  fid.WriteText(bytes,1);
+  fid.Position=0;
+  fid.Charset=enc;
+  rval=fid.ReadText();
+  fid.Close();
+  return rval;
+}
+
+// main part
+
+// create a WshShell object, run mlint, and change encoding of the output using iconv (if it exists in the env path)
+wsh=new ActiveXObject(&quot;WScript.Shell&quot;);
+try{
+  var errstr=wsh.Exec(&quot;cmd /u /c &quot; + &quot;\&quot;&quot; + mlint + &quot; &quot; + &quot;\&quot;&quot; + document.FullName + &quot;\&quot;\&quot;&quot; + &quot; 2&gt;&amp;1 | iconv -f utf-8 -t shift_jis&quot;);
+  // modify error/warning messages so that EmEditor can recognize them and add the links to the target lines.
+  message=String(errstr.StdOut.ReadAll()).replace(/^L\s([0-9]+)\s\(C\s([0-9]+|[0-9]+\-[0-9]+)\)\:\s(.*)/gm,document.FullName+&quot;($1): $3 (C $2)&quot;);
+}catch(error1){
+  var errstr=wsh.Exec(mlint + &quot; &quot; + &quot;\&quot;&quot; + document.FullName + &quot;\&quot;&quot;);
+  try{
+    message=string2utf8(String(errstr.StdErr.ReadAll()),&quot;utf-8&quot;).replace(/^L\s([0-9]+)\s\(C\s([0-9]+|[0-9]+\-[0-9]+)\)\:\s(.*)/gm,document.FullName+&quot;($1): $3 (C $2)&quot;);
+  }catch(error2){
+    message=String(errstr.StdErr.ReadAll()).replace(/^L\s([0-9]+)\s\(C\s([0-9]+|[0-9]+\-[0-9]+)\)\:\s(.*)/gm,document.FullName+&quot;($1): $3 (C $2)&quot;);
+  }
+}
+
+// delete the current OutputBar content. if OutputBar is invisible, set it visible.
+Window.OutputBar.Clear();
+if ( !Window.OutputBar.visible ){ Window.OutputBar.visible = true; }
+
+// write the message to OutputBar.
+Window.OutputBar.SetFocus();
+if (message!=&quot;&quot;) Window.OutputBar.Writeln(message);
+else Window.OutputBar.Writeln(&quot;The code has no warning/error. Congrats!&quot;);
+" Trigger="" Tip="" ShortcutKey="76" ShortcutVirt="11"/>
+
+
+		<Item Name="mNEWLINE" Flags="10" ConfigEdit="" ConfigMacro="" ConfigsAssociate="\MATLAB\" Text=
+"// mNEWLINE for MATLAB script (*.m)
+//
+// [about]
+// a very simple macro to move to the next line.
+// (made for registering the key movement(s) to shortcut or macro)
+//
+//
+// Created    : &quot;2013-11-20 09:44:51 ban&quot;
+// Last Update: &quot;2022-06-20 13:14:32 ban&quot;
+
+document.selection.LineDown(false,1);
+" Trigger="" Tip="" ShortcutKey="0" ShortcutVirt="0"/>
+
+
+		<Item Name="mNEXTCHAR" Flags="10" ConfigEdit="" ConfigMacro="" ConfigsAssociate="\MATLAB\" Text=
+"// mNEXTCHAR for MATLAB script (*.m)
+//
+// [about]
+// a very simple macro to move to the next character
+// (made for registering the key movement(s) to shortcut or macro)
+//
+//
+// Created    : &quot;2013-11-20 09:44:51 ban&quot;
+// Last Update: &quot;2022-06-20 13:14:26 ban&quot;
+
+document.selection.CharRight(false,1);
+" Trigger="" Tip="" ShortcutKey="0" ShortcutVirt="0"/>
+
+
+		<Item Name="mPREVCHAR" Flags="10" ConfigEdit="" ConfigMacro="" ConfigsAssociate="\MATLAB\" Text=
+"// mPREVCHAR for MATLAB script (*.m)
+//
+// [about]
+// a very simple macro to move to the previous character
+// (made for registering the key movement(s) to shortcut or macro)
+//
+//
+// Created    : &quot;2013-11-20 09:44:51 ban&quot;
+// Last Update: &quot;2022-06-20 13:15:52 ban&quot;
+
+document.selection.CharLeft(false,1);
+" Trigger="" Tip="" ShortcutKey="0" ShortcutVirt="0"/>
+
+
+		<Item Name="mPREVLINE" Flags="10" ConfigEdit="" ConfigMacro="" ConfigsAssociate="\MATLAB\" Text=
+"// mPREVLINE for MATLAB script (*.m)
+//
+// [about]
+// a very simple macro to move to the previous line
+// (made for registering the key movement(s) to shortcut or macro)
+//
+//
+// Created    : &quot;2013-11-20 09:44:51 ban&quot;
+// Last Update: &quot;2022-06-20 13:16:39 ban&quot;
+
+document.selection.LineUp(false,1);
+" Trigger="" Tip="" ShortcutKey="0" ShortcutVirt="0"/>
+
+
+		<Item Name="mRETURN" Flags="10" ConfigEdit="" ConfigMacro="" ConfigsAssociate="\MATLAB\" Text=
+"// mRETURN for MATLAB script (*.m)
+//
+// [about]
+// a simple macro to put RETURN.
+//
+//
+// Created    : &quot;2013-11-20 09:44:51 ban&quot;
+// Last Update: &quot;2013-11-20 09:44:51 ban&quot;
+
+Window.Redraw=false;
+
+XX=document.selection.GetActivePointX(eePosLogicalA);
+YY=document.selection.GetActivePointY(eePosLogical);
+
+// check whether the current line is the start or the end of the loop.
+document.selection.EndOfLine(false,eeLineView);
+document.selection.StartOfLine(false,eeLineView | eeLineHomeText);
+document.selection.SelectWord();
+word=document.selection.Text;
+if (word==&quot;if&quot; | word==&quot;else&quot; | word==&quot;elseif&quot; | word==&quot;for&quot; | word==&quot;while&quot; | word==&quot;switch&quot; | word==&quot;case&quot; | word==&quot;goto&quot;) loop_flg=1;
+else if (word==&quot;end&quot; | word==&quot;end;&quot;) loop_flg=2;
+else if (word==&quot;&quot;) loop_flg=3;
+else if (word.match(/%+/)) loop_flg=3;
+else loop_flg=0;
+
+// check whether the current line is one-line loop structure.
+document.selection.EndOfLine(false,eeLineView);
+document.selection.CharLeft(false,2);
+document.selection.SelectWord();
+word=document.selection.Text;
+if (word==&quot;end&quot; | word==&quot;end;&quot;) loop_flg=2;
+
+// get the current line's string and check whether it is an empty line.
+document.selection.SelectLine();
+line=document.selection.Text;
+if (line.match(/[a-zA-Z0-9]+/)) empty_flg=0;
+else empty_flg=1;
+
+// go back to the original cursor position and put RETURN
+document.selection.SetActivePoint(eePosLogicalA,XX,YY,false);
+document.selection.CharLeft(false,1);
+document.selection.CharRight(true,1);
+cchar=document.selection.Text;
+document.selection.SetActivePoint(eePosLogicalA,XX,YY,false);
+if (cchar!=&quot;;&quot; &amp;&amp; loop_flg==0 &amp;&amp; empty_flg==0) document.selection.Text=&quot;;&quot;;
+//if (cchar!=&quot;;&quot; &amp;&amp; loop_flg==0) document.selection.Text=&quot;;&quot;;
+document.selection.NewLine(1);
+
+if (loop_flg==1){ document.selection.Text=&quot;\t&quot;; }
+if (loop_flg==2 &amp;&amp; document.selection.GetActivePointX(eePosLogicalA)&gt;1){
+  for(ii=0; ii&lt;document.Config.Indent.TabColumns; ii++) document.selection.Text=&quot;\b&quot;;
+}
+
+Window.Redraw=true;
+" Trigger="" Tip="" ShortcutKey="74" ShortcutVirt="11"/>
+
+
+		<Item Name="mSCRATCH" Flags="8" ConfigEdit="" ConfigMacro="" ConfigsAssociate="" Text=
+"// mSCRATCH
+//
+// [about]
+// a simple macro to create a new scratch window for MATLAB programming
+//
+//
+// Created    : &quot;2013-11-26 13:58:17 ban&quot;
+// Last Update: &quot;2013-11-26 13:58:17 ban&quot;
+
+// open a new window and set its editing mode to MATLAB.
+editor.NewFile();
+document.ConfigName=&quot;MATLAB&quot;;
+
+// put notes
+document.selection.Text=&quot;% This buffer is for notes you don't want to save, and for MATLAB evaluation.\n&quot;;
+document.selection.Text=&quot;% If you want to create a file, visit that file with C-o,\n&quot;;
+document.selection.Text=&quot;% then enter the text in that file's own buffer.\n&quot;;
+document.selection.Text=&quot;\n\n\n\n\n\n&quot;;
+
+// move to the end of this file
+document.selection.SetActivePoint(eePosLogical,1,5,false);
+" Trigger="" Tip="" ShortcutKey="0" ShortcutVirt="0"/>
+
+
+		<Item Name="mUNTABIFY" Flags="8" ConfigEdit="" ConfigMacro="" ConfigsAssociate="" Text=
+"// mUNTABIFY for MATLAB script (*.m)
+//
+// [about]
+// a simple macro to replace all the tabs to white spaces
+// ref: http://kshi2010.blog2.fc2.com/blog-category-1.html
+//
+//
+// Created    : &quot;2013-11-20 09:44:51 ban&quot;
+// Last Update: &quot;2013-11-20 09:44:51 ban&quot;
+
+Window.Redraw=false;
+
+var sCom = document.Config.Highlight.LineComment1;
+var tabSize = document.Config.Indent.TabColumns;
+var re = new RegExp(&quot;(\\x20*)&quot; + sCom + &quot;(\\x20*)&quot;, &quot;g&quot;);
+
+with(document.selection) {
+  if (Text.indexOf(&quot;\t&quot;) &gt;= 0) {
+    Untabify(); //タブ→空白
+  } else {
+    Tabify();   //空白→タブ
+    var xPos = GetTopPointX(eePosLogical);
+    var yPos = GetTopPointY(eePosLogical);
+    Text = Text.replace(
+      re,
+      function($0, $1, $2) {
+        var tabCount;
+        tabCount = Math.ceil($1.length / tabSize);  //タブの個数
+        var s = new Array(tabCount + 1);
+        tabCount = Math.ceil($2.length / tabSize);  //タブの個数
+        var t = new Array(tabCount + 1);
+        return s.join(&quot;\t&quot;) + sCom + t.join(&quot;\t&quot;);
+      }
+    );
+    SetAnchorPoint(eePosLogical, xPos, yPos);   //選択再現
+  }
+}
+
+Window.Redraw=true;
+" Trigger="" Tip="" ShortcutKey="0" ShortcutVirt="0"/>
+
+
+		<Item Name="BSD" Flags="4" ConfigEdit="" ConfigMacro="" ConfigsAssociate="" Text=
+"%  `if [[ ${TM_FILENAME} != '' ]]; then echo -e &quot;\n% ${TM_FILENAME}\n% &quot;;fi`
+% Copyright (C) `date +%Y` ${TM_FULLNAME}`if [[ ${TM_ORGANIZATION_NAME} != '' ]]; then echo -e &quot;, ${TM_ORGANIZATION_NAME}&quot;;fi`. `if [[ ${TM_EMAIL} != '' ]]; then echo -e &quot;\n% ${TM_EMAIL}&quot;;fi``if [[ ${TM_URL} != '' ]]; then echo -e &quot;\n% ${TM_URL}&quot;;fi`
+% All rights reserved.
+%
+% Redistribution and use in source and binary forms, with or without
+% modification, are permitted provided that the following conditions are met:
+%     * Redistributions of source code must retain the above copyright
+%       notice, this list of conditions and the following disclaimer.
+%     * Redistributions in binary form must reproduce the above copyright
+%       notice, this list of conditions and the following disclaimer in the
+%       documentation and/or other materials provided with the distribution.
+%     * Neither the name of the &lt;organization&gt; nor the
+%       names of its contributors may be used to endorse or promote products
+%       derived from this software without specific prior written permission.
+%
+% THIS SOFTWARE IS PROVIDED BY &lt;copyright holder&gt; ``AS IS'' AND ANY
+% EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+% WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+% DISCLAIMED. IN NO EVENT SHALL &lt;copyright holder&gt; BE LIABLE FOR ANY
+% DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+% (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+% LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
+% ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+% (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+% SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+%" Trigger="bsd" Tip="" ShortcutKey="0" ShortcutVirt="0"/>
+
+
+		<Item Name="case" Flags="4" ConfigEdit="" ConfigMacro="" ConfigsAssociate="" Text="case ${2:'${3:string}'}
+	$0" Trigger="case" Tip="" ShortcutKey="0" ShortcutVirt="0"/>
+
+
+		<Item Name="clear" Flags="4" ConfigEdit="" ConfigMacro="" ConfigsAssociate="" Text="clear('${1:all}'$2);" Trigger="clear" Tip="" ShortcutKey="0" ShortcutVirt="0"/>
+
+
+		<Item Name="Comment Divide" Flags="0" ConfigEdit="" ConfigMacro="" ConfigsAssociate="" Text="%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%   $1   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%" Trigger="" Tip="" ShortcutKey="0" ShortcutVirt="0"/>
+
+
+		<Item Name="disp" Flags="4" ConfigEdit="" ConfigMacro="" ConfigsAssociate="" Text="disp('${1:Text}');" Trigger="disp" Tip="" ShortcutKey="0" ShortcutVirt="0"/>
+
+
+		<Item Name="disp sprintf" Flags="4" ConfigEdit="" ConfigMacro="" ConfigsAssociate="" Text="disp(sprintf('${1:%s}\\n'${1/([^%]|%%)*(%.)?.*/(?2:, :\);)/}$2${1/([^%]|%%)*(%.)?.*/(?2:\);)/});" Trigger="dsp" Tip="" ShortcutKey="0" ShortcutVirt="0"/>
+
+
+		<Item Name="dlmwrite" Flags="4" ConfigEdit="" ConfigMacro="" ConfigsAssociate="" Text="dlmwrite('${1:filename}.dat', [${2:variables}], ${3:'${4:delimiter}', '${5:\t}'});
+$0" Trigger="dlmwrite" Tip="" ShortcutKey="0" ShortcutVirt="0"/>
+
+
+		<Item Name="else" Flags="4" ConfigEdit="" ConfigMacro="" ConfigsAssociate="" Text="else
+	${1:body}" Trigger="else" Tip="" ShortcutKey="0" ShortcutVirt="0"/>
+
+
+		<Item Name="elseif" Flags="4" ConfigEdit="" ConfigMacro="" ConfigsAssociate="" Text="elseif ${1:condition}
+	$0" Trigger="elseif" Tip="" ShortcutKey="0" ShortcutVirt="0"/>
+
+
+		<Item Name="error" Flags="4" ConfigEdit="" ConfigMacro="" ConfigsAssociate="" Text="error('${1:Description}');" Trigger="error" Tip="" ShortcutKey="0" ShortcutVirt="0"/>
+
+
+		<Item Name="exp" Flags="4" ConfigEdit="" ConfigMacro="" ConfigsAssociate="" Text="exp($1) $2" Trigger="e" Tip="" ShortcutKey="0" ShortcutVirt="0"/>
+
+
+		<Item Name="for … end" Flags="4" ConfigEdit="" ConfigMacro="" ConfigsAssociate="" Text=
+"for ${1:ii}=${2:1}${3::${4:n}}
+	$0
+`if [[ $TM_USE_OCTAVE -ne '0' ]]
+	then echo &quot;endfor&quot;
+else
+	echo &quot;end&quot;
+fi`" Trigger="for" Tip="" ShortcutKey="0" ShortcutVirt="0"/>
+		<Item Name="fprintf" Flags="4" ConfigEdit="" ConfigMacro="" ConfigsAssociate="" Text="fprintf(${1:fid}, '${2:%s}\\n'${2/([^%]|%%)*(%.)?.*/(?2:, :\);)/}$3${2/([^%]|%%)*(%.)?.*/(?2:\);)/}" Trigger="fpr" Tip="" ShortcutKey="0" ShortcutVirt="0"/>
+		<Item Name="function" Flags="4" ConfigEdit="" ConfigMacro="" ConfigsAssociate="" Text="function ${1:Output variables} = ${2:functionName}(${3:Input variables})
+
+%	${2/.*/\U$0/}   ${4:Short description}
+%		[${1/.*/\U$0/}] = ${2/.*/\U$0/}(${6:${3/.*/\U$0/}})
+%
+%	${5:Long description}
+%	
+%	Created by ${TM_FULLNAME} on `date +%Y-%m-%d`.
+%	Copyright (c) ${TM_YEAR} ${TM_ORGANIZATION_NAME}. All rights reserved.
+
+$0
+" Trigger="fun" Tip="" ShortcutKey="0" ShortcutVirt="0"/>
+
+
+		<Item Name="get" Flags="4" ConfigEdit="" ConfigMacro="" ConfigsAssociate="" Text="get(${1:gca},'${2:PropertyName}');" Trigger="get" Tip="" ShortcutKey="0" ShortcutVirt="0"/>
+
+
+		<Item Name="GPL" Flags="4" ConfigEdit="" ConfigMacro="" ConfigsAssociate="" Text=
+"%  `if [[ ${TM_FILENAME} != '' ]]; then echo -e &quot;\n% ${TM_FILENAME}\n% &quot;;fi`
+% Copyright (C) `date +%Y` ${TM_FULLNAME}`if [[ ${TM_ORGANIZATION_NAME} != '' ]]; then echo -e &quot;, ${TM_ORGANIZATION_NAME}&quot;;fi`. `if [[ ${TM_EMAIL} != '' ]]; then echo -e &quot;\n% ${TM_EMAIL}&quot;;fi``if [[ ${TM_URL} != '' ]]; then echo -e &quot;\n% ${TM_URL}&quot;;fi`
+% 
+% This program is free software; you can redistribute it and/or
+% modify it under the terms of the GNU General Public License
+% as published by the Free Software Foundation; either version 2
+% of the License, or (at your option) any later version.
+% 
+% This program is distributed in the hope that it will be useful,
+% but WITHOUT ANY WARRANTY; without even the implied warranty of
+% MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+% GNU General Public License for more details.
+% 
+% You should have received a copy of the GNU General Public License
+% along with this program; if not, write to the Free Software
+% Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+%" Trigger="gpl" Tip="" ShortcutKey="0" ShortcutVirt="0"/>
+
+
+		<Item Name="griddata" Flags="4" ConfigEdit="" ConfigMacro="" ConfigsAssociate="" Text="griddata(${1:xx}, ${2:yy}, ${3:zz}, ${4:xi}, ${5:yi});" Trigger="griddata" Tip="" ShortcutKey="0" ShortcutVirt="0"/>
+
+
+		<Item Name="if … else …end" Flags="4" ConfigEdit="" ConfigMacro="" ConfigsAssociate="" Text=
+"if ${1:condition}
+	$2
+else
+	$3
+`if [[ $TM_USE_OCTAVE -ne '0' ]]
+	then echo &quot;endif&quot;
+else
+	echo &quot;end&quot;
+fi`" Trigger="ife" Tip="" ShortcutKey="0" ShortcutVirt="0"/>
+
+
+		<Item Name="if … elseif … end" Flags="4" ConfigEdit="" ConfigMacro="" ConfigsAssociate="" Text=
+"if ${1:condition}
+	${2:body}
+elseif ${3:condition}
+	${4:body}
+else
+	${5:body}
+end" Trigger="ifeif" Tip="" ShortcutKey="0" ShortcutVirt="0"/>
+
+
+		<Item Name="if … end" Flags="4" ConfigEdit="" ConfigMacro="" ConfigsAssociate="" Text=
+"if ${1:condition}
+	$0
+`if [[ $TM_USE_OCTAVE -ne '0' ]]
+	then echo &quot;endif&quot;
+else
+	echo &quot;end&quot;
+fi`" Trigger="if" Tip="" ShortcutKey="0" ShortcutVirt="0"/>
+
+
+		<Item Name="line" Flags="4" ConfigEdit="" ConfigMacro="" ConfigsAssociate="" Text="line(${1:xvector},${2:yvector}${3:,'Color','${4:b}','LineWidth',${5:1},'LineStyle','${6:-}'})" Trigger="line" Tip="" ShortcutKey="0" ShortcutVirt="0"/>
+
+
+		<Item Name="nargchk" Flags="4" ConfigEdit="" ConfigMacro="" ConfigsAssociate="" Text="error(nargchk(${1:min}, ${2:max}, ${3:nargin}, `if [[ $TM_USE_OCTAVE -eq '0' ]]; then
+	echo -n &quot;'struct'&quot;
+fi` ));" Trigger="nargchk" Tip="" ShortcutKey="0" ShortcutVirt="0"/>
+
+
+		<Item Name="Octave function" Flags="4" ConfigEdit="" ConfigMacro="" ConfigsAssociate="" Text=
+"## Copyright (C) ${TM_YEAR} $TM_FULLNAME
+##
+## This program is free software; you can redistribute it and/or modify
+## it under the terms of the GNU General Public License as published by
+## the Free Software Foundation; either version 2 of the License, or
+## (at your option) any later version.
+##
+## This program is distributed in the hope that it will be useful,
+## but WITHOUT ANY WARRANTY; without even the implied warranty of
+## MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+## GNU General Public License for more details.
+##
+## You should have received a copy of the GNU General Public License
+## along with this program; If not, see &lt;http://www.gnu.org/licenses/&gt;.
+
+## -*- texinfo -*-
+## @deftypefn {Function File} {${1:Outputs} = } ${2:Function Name} (${3:Input Arguments)
+## ${4:Short Description}
+##
+## ${5:Long Description}
+##
+## @seealso{${6:functions}}
+## @end deftypefn
+
+## Author:  $TM_FULLNAME
+
+$0
+
+endfunction" Trigger="octfun" Tip="" ShortcutKey="0" ShortcutVirt="0"/>
+		<Item Name="Revisions" Flags="4" ConfigEdit="" ConfigMacro="" ConfigsAssociate="" Text="%	Rev. by ${TM_FULLNAME} on `date +%Y-%m-%d`: ${1:Short description}" Trigger="rev" Tip="" ShortcutKey="0" ShortcutVirt="0"/>
+		<Item Name="set" Flags="4" ConfigEdit="" ConfigMacro="" ConfigsAssociate="" Text="set(${1:get(${2:gca},'${3:PropertyName}')},'${4:PropertyName}',${5:PropertyValue});" Trigger="set" Tip="" ShortcutKey="0" ShortcutVirt="0"/>
+		<Item Name="small function" Flags="4" ConfigEdit="" ConfigMacro="" ConfigsAssociate="" Text="%% ${1:functionname}: ${2:function description}
+function [${3:outputs}] = ${1}(${4:arg})
+${3/,?\s*([a-zA-Z]\w*)|,\s*/(?1:\t$1 = ;\n)/g}" Trigger="func" Tip="" ShortcutKey="0" ShortcutVirt="0"/>
+
+
+		<Item Name="sprintf" Flags="4" ConfigEdit="" ConfigMacro="" ConfigsAssociate="" Text="sprintf('${1:%s}\\n'${1/([^%]|%%)*(%.)?.*/(?2:, :\);)/}$2${1/([^%]|%%)*(%.)?.*/(?2:\);)/}" Trigger="spr" Tip="" ShortcutKey="0" ShortcutVirt="0"/>
+
+
+		<Item Name="switch ... case ... otherwise ... end" Flags="4" ConfigEdit="" ConfigMacro="" ConfigsAssociate="" Text=
+"switch ${1:switch_expression}
+	case ${2:case_expression}
+		${3:body}
+	otherwise
+		${4:body}
+end" Trigger="switch" Tip="" ShortcutKey="0" ShortcutVirt="0"/>
+
+
+		<Item Name="switch … case … end" Flags="4" ConfigEdit="" ConfigMacro="" ConfigsAssociate="" Text=
+"switch ${1:var}
+case ${2:'${3:string}'}
+	$0
+`if [[ $TM_USE_OCTAVE -ne '0' ]]
+	then echo &quot;endswitch&quot;
+else
+	echo &quot;end&quot;
+fi`" Trigger="switch" Tip="" ShortcutKey="0" ShortcutVirt="0"/>
+
+
+		<Item Name="switch … case … otherwise … end" Flags="4" ConfigEdit="" ConfigMacro="" ConfigsAssociate="" Text=
+"switch ${1:var}
+case ${2:'${3:string}'}
+	$4
+otherwise
+	$0
+`if [[ $TM_USE_OCTAVE -ne '0' ]]
+	then echo &quot;endswitch&quot;
+else
+	echo &quot;end&quot;
+fi`" Trigger="switcho" Tip="" ShortcutKey="0" ShortcutVirt="0"/>
+
+
+		<Item Name="title" Flags="4" ConfigEdit="" ConfigMacro="" ConfigsAssociate="" Text="set(get(gca,'Title'),'String',${1:'${2}'});" Trigger="zla" Tip="" ShortcutKey="0" ShortcutVirt="0"/>
+
+
+		<Item Name="try … catch … end" Flags="4" ConfigEdit="" ConfigMacro="" ConfigsAssociate="" Text=
+"try 
+	$1
+catch 
+	$0
+`if [[ $TM_USE_OCTAVE -ne '0' ]]
+	then echo &quot;end_try_catch&quot;
+else
+	echo &quot;end&quot;
+fi`" Trigger="try" Tip="" ShortcutKey="0" ShortcutVirt="0"/>
+
+
+		<Item Name="unix" Flags="4" ConfigEdit="" ConfigMacro="" ConfigsAssociate="" Text="[${1:s},${2:w}] = unix('${3:Unix commands}');" Trigger="uni" Tip="" ShortcutKey="0" ShortcutVirt="0"/>
+
+
+		<Item Name="unwind_protect … cleanup … end" Flags="4" ConfigEdit="" ConfigMacro="" ConfigsAssociate="" Text=
+"unwind_protect 
+	$1
+unwnd_protect_cleanup 
+	$0
+end_unwind_protect" Trigger="unwind" Tip="" ShortcutKey="0" ShortcutVirt="0"/>
+
+
+		<Item Name="warning" Flags="4" ConfigEdit="" ConfigMacro="" ConfigsAssociate="" Text="warning(['${1:Description}']);" Trigger="war" Tip="" ShortcutKey="0" ShortcutVirt="0"/>
+
+
+		<Item Name="while" Flags="4" ConfigEdit="" ConfigMacro="" ConfigsAssociate="" Text="while ${1:condition}
+	${2:body}
+end" Trigger="whi" Tip="" ShortcutKey="0" ShortcutVirt="0"/>
+
+
+		<Item Name="xlabel" Flags="4" ConfigEdit="" ConfigMacro="" ConfigsAssociate="" Text="set(get(gca,'XLabel'),'String',${1:'${2}'});" Trigger="xla" Tip="" ShortcutKey="0" ShortcutVirt="0"/>
+
+
+		<Item Name="xtick" Flags="4" ConfigEdit="" ConfigMacro="" ConfigsAssociate="" Text="set(gca,'XTick',${1:[${2}]});" Trigger="xti" Tip="" ShortcutKey="0" ShortcutVirt="0"/>
+
+
+		<Item Name="ylabel" Flags="4" ConfigEdit="" ConfigMacro="" ConfigsAssociate="" Text="set(get(gca,'YLabel'),'String',${1:'${2}'});" Trigger="yla" Tip="" ShortcutKey="0" ShortcutVirt="0"/>
+
+
+		<Item Name="ytick" Flags="4" ConfigEdit="" ConfigMacro="" ConfigsAssociate="" Text="set(gca,'YTick',${1:[${2}]});" Trigger="yti" Tip="" ShortcutKey="0" ShortcutVirt="0"/>
+
+
+		<Item Name="zlabel" Flags="4" ConfigEdit="" ConfigMacro="" ConfigsAssociate="" Text="set(get(gca,'ZLabel'),'String',${1:'${2}'});" Trigger="zla" Tip="" ShortcutKey="0" ShortcutVirt="0"/>
+
+
+		<Item Name="^" Flags="4" ConfigEdit="" ConfigMacro="" ConfigsAssociate="" Text="^($1) $2" Trigger="^" Tip="" ShortcutKey="0" ShortcutVirt="0"/>
+	</Folder>
+</SnippetTree>
+</Snippets>
