@@ -96,6 +96,7 @@ EmEditor_MATLAB_snippet.eesnip : EmEditor Snippet File for MATLAB.
               switch ... case ... end, title, try ... catch ... end,
               unix, unwind_protect ... cleanup ... end, warning, while,
               xlabel, xtick, ylabel, ytick, zlabel
+              These code snippets were made following TextMate MATLAB snippets.
 
 macros -- directory, which contains JavaScript macros for EmEditor.
     Generally, the macros in this directory are not required if you install
