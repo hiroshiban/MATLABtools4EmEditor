@@ -2,7 +2,7 @@
 
 <div align="right">
 Created    : "2009-01-21 15:08:02 ban"<br>
-Last Update: "2022-06-24 18:24:21 ban"
+Last Update: "2022-06-27 00:06:43 ban"
 </div>
 
 <br>
@@ -18,8 +18,10 @@ Last Update: "2022-06-24 18:24:21 ban"
 # **MATLABtools4EmEditor -- MATLAB support for EmEditor**
 
 ![matlabtools4emeditor](doc/images/matlabtools4emeditor.png)  
-*MATLABtools4EmEditor provides utilities for MATLAB syntax highlighting, keyword (functions and operators) auto-completion, code snippets, and macros for automations.*  
+*MATLABtools4EmEditor provides supporting utilities for writing MATLAB codes with EmEditor.*  
 <br></br>
+Japanese version of README.md is available from [here.](README_ja.md)  
+日本語版 README.mdは[こちら](README_ja.md) 
 
 This package contains a set of **EmEditor** syntax-highlighting files, code snippets, and simple JavaScript macros for editing **MATLAB** codes. It enables EmEditor to highlight the MATLAB keywords (functions and operators), detect the grammatical errors/warnings with MATLAB mlint.exe, and support code-editing via semi-auto-completion macros and snippets. I am happy if the tools can help your coding life.  
 
@@ -31,11 +33,11 @@ This package contains a set of **EmEditor** syntax-highlighting files, code snip
 
 ![mlint](doc/images/mlint.gif)  
 
-*mMLINT in the snippet/macro enables MATLAB syntax check with mlint.exe in EmEditor.*  
+*mMLINT in the snippet/macro enables MATLAB syntax analyses with mlint.exe in EmEditor.*  
 
 ![time_stamp](doc/images/time_stamp.gif)  
 
-*mINS_TSTAMP in the snippet/macro automatically adds time stamp in saving the *.m files.*  
+*mINS_TSTAMP in the snippet/macro automatically adds time stamps in saving the *.m files.*  
 <br></br>
 
 <pre>
@@ -72,8 +74,9 @@ EmEditor_MATLAB_snippet.eesnip : EmEditor Snippet File for MATLAB.
     5. mINDENT : a Javascript macro snippet,
               indenting the region, made for keyboard manipulations.
     6. mINS_TSTAMP : a Javascript macro snippet,
-              adding time stamp when the phrase, "Last Update : "2022-06-24 18:24:21 ban"
+              adding time stamp when the specific phrase, "Lastt Update : "",
               is detected within the first 200 lines of the source code.
+              (please not that here, "Lastt" is actually "Last")
     7. mMLINT : a Javascript macro snippet,
               checking grammatical errors/warnings of the source code
               with mlint.exe. Please change the "mlint" variable in
