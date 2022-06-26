@@ -2,7 +2,7 @@
 
 <div align="right">
 Created    : "2009-01-21 15:08:02 ban"<br>
-Last Update: "2022-06-27 00:21:43 ban"
+Last Update: "2022-06-27 01:59:23 ban"
 </div>
 
 <br>
@@ -17,11 +17,12 @@ Last Update: "2022-06-27 00:21:43 ban"
 
 # **MATLABtools4EmEditor -- EmEditor用MATLABスクリプト記述支援ツール**
 
-![matlabtools4emeditor](doc/images/matlabtools4emeditor.png)  
-*MATLABtools4EmEditor は、EmEditor上でのMATLABプログラミングを支援する機能を提供します。*  
-<br></br>
 English version of README.md is available from [here.](https://github.com/hiroshiban/MATLABtools4EmEditor)  
 英語版 README.mdは[こちら](https://github.com/hiroshiban/MATLABtools4EmEditor)  
+
+![matlabtools4emeditor](doc/images/matlabtools4emeditor.png)  
+*MATLABtools4EmEditor は、EmEditor上でのMATLABプログラミングを支援する機能を提供します。*  
+<br>
 
 このパッケージは、**MATLAB**コードを**EmEditor**上で記述する際に役立つ、構文定義ファイル(*.esy)、コード・スニペット(*.eesnip)、JavaScriptによる簡易マクロ(*.jsee)の一連のファイルからなります。これらのファイルを組み込むことで、EmEditor上でMATLABキーワード(オペレータや関数名)をハイライトしたり、MATLAB標準の構文チェッカー・mlint.extと連携してコードのエラーや警告を検出したり、マクロとスニペットによるコード記述の半自動化などの支援機能が使えるようになります。このパッケージがみなさまのお役に立ちましたら幸いです。
 
@@ -38,7 +39,7 @@ English version of README.md is available from [here.](https://github.com/hirosh
 ![time_stamp](doc/images/time_stamp.gif)  
 
 *mINS_TSTAMPを用いることで、MATLABファイルの保存時に保存時間を自動挿入できます。*  
-<br></br>
+<br>
 <pre>
 matlab_with_toolboxes.esy : MATLABとMATLAB_toolbox用のEmEditor構文ファイル
     のフルバージョンです。

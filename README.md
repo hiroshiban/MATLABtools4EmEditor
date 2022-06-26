@@ -2,7 +2,7 @@
 
 <div align="right">
 Created    : "2009-01-21 15:08:02 ban"<br>
-Last Update: "2022-06-27 00:06:43 ban"
+Last Update: "2022-06-27 01:58:37 ban"
 </div>
 
 <br>
@@ -17,11 +17,12 @@ Last Update: "2022-06-27 00:06:43 ban"
 
 # **MATLABtools4EmEditor -- MATLAB support for EmEditor**
 
-![matlabtools4emeditor](doc/images/matlabtools4emeditor.png)  
-*MATLABtools4EmEditor provides supporting utilities for writing MATLAB codes with EmEditor.*  
-<br></br>
 Japanese version of README.md is available from [here.](README_ja.md)  
 日本語版 README.mdは[こちら](README_ja.md) 
+
+![matlabtools4emeditor](doc/images/matlabtools4emeditor.png)  
+*MATLABtools4EmEditor provides supporting utilities for writing MATLAB codes with EmEditor.*  
+<br>
 
 This package contains a set of **EmEditor** syntax-highlighting files, code snippets, and simple JavaScript macros for editing **MATLAB** codes. It enables EmEditor to highlight the MATLAB keywords (functions and operators), detect the grammatical errors/warnings with MATLAB mlint.exe, and support code-editing via semi-auto-completion macros and snippets. I am happy if the tools can help your coding life.  
 
@@ -38,7 +39,7 @@ This package contains a set of **EmEditor** syntax-highlighting files, code snip
 ![time_stamp](doc/images/time_stamp.gif)  
 
 *mINS_TSTAMP in the snippet/macro automatically adds time stamps in saving the *.m files.*  
-<br></br>
+<br>
 
 <pre>
 matlab_with_toolboxes.esy : EmEditor Syntax File for MATLAB and MATLAB-toolboxes,
